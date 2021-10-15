@@ -6,7 +6,7 @@ const productsActions = {
       try {
         let res = await axios.post(
           "https://cozydeco.herokuapp.com/api/products",
-          {},
+          { filterBy: { forSale: true } },
           { withCredentials: true }
         )
         dispatch({ type: "GET_ALL_PRODUCTS", payload: res.data.response })
@@ -41,7 +41,9 @@ const productsActions = {
   getAProduct: (id) => {
     return async (dispatch) => {
       try {
-        let res = await axios.get(`https://cozydeco.herokuapp.com/api/product/${id}`)
+        let res = await axios.get(
+          `https://cozydeco.herokuapp.com/api/product/${id}`
+        )
         dispatch({ type: "GET_PRODUCT", payload: res.data.response })
         return { success: true, res: res.data.response }
       } catch (err) {
@@ -72,9 +74,12 @@ const productsActions = {
   },
   getProductByCategory: (category) => {
     return (dispatch) => {
-      dispatch({ type: !category ? "GET_ALL" : "GET_BY_CATEGORY", payload: category })
+      dispatch({
+        type: !category ? "GET_ALL" : "GET_BY_CATEGORY",
+        payload: category,
+      })
     }
-  }
+  },
 }
 
 export default productsActions
